@@ -8,5 +8,5 @@ This is the result!
 
 I am using a ESP-12e, but other ESP-modules could also be used.
 What's important are the available GPIO-pins.
-In this case 5 GPIO-pins are used: <b>GPIO16, GPIO12, GPIO13, GPIO4 and GPIO5</b>
+In this case 5 GPIO-pins are used: GPIO16, GPIO12, GPIO13, GPIO4 and GPIO5
 The ESP also need to be enabled, which is done by connecting the ENABLE-pin to VCC.
