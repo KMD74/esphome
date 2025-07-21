@@ -2,6 +2,11 @@ I searched the Internet for a way to control my Velux blinds, but could only fin
 
 I figured I could try to make a more sleak and simple way of controling the remote control.
 Using an ESP-module (ESP-12e) I had laying around, I was able to access all functions of the remote.
-The goal is also to have it integrated into Home Assistant.
+The goal was also to have it integrated into Home Assistant.
 
 This is the result!
+
+I am using a ESP-12e, but other ESP-modules could also be used.
+What's important are the available GPIO-pins.
+In this case 5 GPIO-pins are used: <b>GPIO16, GPIO12, GPIO13, GPIO4 and GPIO5</b>
+The ESP also need to be enabled, which is done by connecting the ENABLE-pin to VCC.
