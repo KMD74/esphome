@@ -1,0 +1,166 @@
+substitutions:
+  device_ssid: "esphome-web-bad123"
+  device_name: "esphome-web-bad123"
+  device_description: "Velux Blinds"
+  friendly_name: "Velux Blinds"
+  main_device_id: "esphome-web-bad123" # Put the name that you want to see in Home Assistant.
+
+esphome:
+  name: ${device_name}
+  friendly_name: ${friendly_name}
+  comment: ${device_description}
+
+esp8266:
+  board: esp12e
+
+# Enable logging
+logger:
+  level: info
+
+status_led:
+  pin: GPIO2
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: ""
+
+ota:
+  - platform: esphome
+    password: ""
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+  
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${device_name}"
+    password: !secret wifi_password
+
+web_server:
+    port: 80
+
+button:
+  - platform: template
+    name: "Up"
+    id: btn_up
+    #internal: true
+    entity_category: config
+    icon: "mdi:arrow-up"
+    on_press:
+    - switch.turn_on: up
+
+  - platform: template
+    name: "Stop"
+    id: btn_stop
+    #internal: true
+    entity_category: config
+    icon: "mdi:stop-circle-outline"
+    on_press:
+    - switch.turn_on: stop
+
+  - platform: template
+    name: "Down"
+    id: btn_down
+    #internal: true
+    entity_category: config
+    icon: "mdi:arrow-down"
+    on_press:
+    - switch.turn_on: down
+
+  - platform: template
+    name: "Pair"
+    id: btn_pair
+    disabled_by_default: true
+    entity_category: diagnostic
+    icon: "mdi:box-shadow"
+    on_press:
+    - switch.turn_on: pair
+
+  - platform: template
+    name: "Star"
+    id: btn_star
+    disabled_by_default: true
+    entity_category: diagnostic
+    icon: "mdi:star"
+    on_press:
+    - switch.turn_on: star
+
+switch:
+  - platform: gpio
+    id: up
+    internal: true
+    pin: 
+      number: GPIO16
+      inverted: true
+      mode:
+        output: true
+    on_turn_on:
+    - delay: 500ms
+    - switch.turn_off: up
+
+  - platform: gpio
+    id: stop
+    internal: true
+    pin: 
+      number: GPIO12
+      inverted: true
+      mode:
+        output: true
+    on_turn_on:
+    - delay: 500ms
+    - switch.turn_off: stop
+
+  - platform: gpio
+    id: down
+    internal: true
+    pin: 
+      number: GPIO13
+      inverted: true
+      mode:
+        output: true
+    on_turn_on:
+    - delay: 500ms
+    - switch.turn_off: down
+
+  - platform: gpio
+    id: pair
+    internal: true
+    pin: 
+      number: GPIO4
+      inverted: true
+      mode:
+        output: true
+    on_turn_on:
+    - delay: 1000ms
+    - switch.turn_off: pair
+
+  - platform: gpio
+    id: star
+    internal: true
+    pin: 
+      number: GPIO5
+      inverted: true
+      mode:
+        output: true
+    on_turn_on:
+    - delay: 1000ms
+    - switch.turn_off: star
+
+cover:
+  - platform: time_based
+    name: "Blinds Control"
+    has_built_in_endstop: true
+
+    open_action:
+      - switch.turn_on: up
+    open_duration: 21.8s
+
+    close_action:
+      - switch.turn_on: down
+    close_duration: 21.8s
+
+    stop_action:
+      - switch.turn_on: stop
